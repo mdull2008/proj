@@ -1,0 +1,1515 @@
+<!doctype html>
+<html>
+<head>
+{% load static %}
+<meta charset="utf-8">
+<title>Coach</title>
+<meta name="generator" content="WYSIWYG Web Builder 21 - https://www.wysiwygwebbuilder.com">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body
+{
+   background-color: #FFFFFF;
+   color: #000000;
+   font-family: "Open Sans";
+   font-weight: normal;
+   font-size: 13px;
+   line-height: 1.1875;
+   margin: 0;
+   padding: 0;
+}
+</style>
+<link href="{% static 'css/fontawesome7.min.css' %}" rel="stylesheet">
+<style>
+#wb_headerLayoutGrid
+{
+   clear: both;
+   position: relative;
+   table-layout: fixed;
+   display: table;
+   text-align: center;
+   width: 100%;
+   background-color: #000000;
+   background-image: none;
+   border: 0px solid #CCCCCC;
+   border-radius: 0px;
+   box-sizing: border-box;
+   margin: 25px 0 25px 0 ;
+   box-shadow: 0px 0px 10px rgba(0,0,0,0.39);
+}
+#headerLayoutGrid
+{
+   box-sizing: border-box;
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   padding: 16px 0 16px 0;
+   margin-right: auto;
+   margin-left: auto;
+   max-width: 1140px;
+}
+#headerLayoutGrid > .col-1
+{
+   box-sizing: border-box;
+   font-size: 0;
+   min-height: 1px;
+   padding-right: 15px;
+   padding-left: 15px;
+   position: relative;
+}
+#headerLayoutGrid > .col-1
+{
+   flex: 0 0 auto;
+}
+#headerLayoutGrid > .col-1
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #FFFFFF;
+   border-radius: 0px;
+   flex-basis: 100%;
+   max-width: 100%;
+   display: flex;
+   flex-wrap: wrap;
+   align-content: center;
+   align-self: stretch;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+}
+@media (max-width: 480px)
+{
+#headerLayoutGrid > .col-1
+{
+   flex-basis: 100% !important;
+   max-width: 100% !important;
+}
+}
+#wb_introLayoutGrid
+{
+   clear: both;
+   position: relative;
+   table-layout: fixed;
+   display: table;
+   text-align: center;
+   width: 100%;
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   border-radius: 0px;
+   box-sizing: border-box;
+   margin: 0;
+}
+#introLayoutGrid
+{
+   box-sizing: border-box;
+   padding: 0 15px 0 15px;
+   margin-right: auto;
+   margin-left: auto;
+   max-width: 1140px;
+}
+#introLayoutGrid > .row
+{
+   margin-right: -15px;
+   margin-left: -15px;
+}
+#introLayoutGrid > .row > .col-1, #introLayoutGrid > .row > .col-2
+{
+   box-sizing: border-box;
+   font-size: 0;
+   min-height: 1px;
+   padding-right: 15px;
+   padding-left: 15px;
+   position: relative;
+}
+#introLayoutGrid > .row > .col-1, #introLayoutGrid > .row > .col-2
+{
+   float: left;
+}
+#introLayoutGrid > .row > .col-1
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #FFFFFF;
+   border-radius: 0px;
+   width: 50%;
+   text-align: left;
+}
+#introLayoutGrid > .row > .col-1 > .col-1-padding
+{
+   box-sizing: border-box;
+   width: 100%;
+   padding: 50px 0 50px 0;
+}
+#introLayoutGrid > .row > .col-2
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #FFFFFF;
+   border-radius: 0px;
+   width: 50%;
+   text-align: left;
+}
+#introLayoutGrid > .row > .col-2 > .col-2-padding
+{
+   box-sizing: border-box;
+   width: 100%;
+   padding: 50px 0 50px 0;
+}
+#introLayoutGrid:before,
+#introLayoutGrid:after,
+#introLayoutGrid .row:before,
+#introLayoutGrid .row:after
+{
+   display: table;
+   content: " ";
+}
+#introLayoutGrid:after,
+#introLayoutGrid .row:after
+{
+   clear: both;
+}
+@media (max-width: 768px)
+{
+#introLayoutGrid > .row > .col-1, #introLayoutGrid > .row > .col-2
+{
+   float: none;
+   width: 100% !important;
+}
+}
+#wb_servicesLayoutGrid
+{
+   clear: both;
+   position: relative;
+   table-layout: fixed;
+   display: table;
+   text-align: center;
+   width: 100%;
+   background-color: #000000;
+   background-image: none;
+   border: 0px solid #CCCCCC;
+   border-radius: 0px;
+   box-sizing: border-box;
+   margin: 0;
+}
+#servicesLayoutGrid
+{
+   box-sizing: border-box;
+   padding: 50px 15px 0 15px;
+   margin-right: auto;
+   margin-left: auto;
+   max-width: 1140px;
+}
+#servicesLayoutGrid > .row
+{
+   margin-right: -15px;
+   margin-left: -15px;
+}
+#servicesLayoutGrid > .row > .col-1
+{
+   box-sizing: border-box;
+   font-size: 0;
+   min-height: 1px;
+   padding-right: 15px;
+   padding-left: 15px;
+   position: relative;
+}
+#servicesLayoutGrid > .row > .col-1
+{
+   float: left;
+}
+#servicesLayoutGrid > .row > .col-1
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #FFFFFF;
+   border-radius: 0px;
+   width: 100%;
+   text-align: center;
+}
+#servicesLayoutGrid:before,
+#servicesLayoutGrid:after,
+#servicesLayoutGrid .row:before,
+#servicesLayoutGrid .row:after
+{
+   display: table;
+   content: " ";
+}
+#servicesLayoutGrid:after,
+#servicesLayoutGrid .row:after
+{
+   clear: both;
+}
+@media (max-width: 480px)
+{
+#servicesLayoutGrid > .row > .col-1
+{
+   float: none;
+   width: 100% !important;
+}
+}
+#wb_servicesCardContainer
+{
+   background-color: #000000;
+   background-image: none;
+   border: 0px solid #FFFFFF;
+   border-radius: 0px;
+   box-sizing: border-box;
+   position: relative;
+   width: 100%;
+}
+#servicesCardContainer
+{
+   display: flex;
+   position: relative;
+   padding: 0 0 60px 0;
+   flex-direction: row;
+   flex-wrap: wrap;
+   justify-content: flex-start;
+   align-items: stretch;
+   align-content: flex-start;
+   margin-top: 0px;
+   margin-bottom: 0px;
+   margin-right: auto;
+   margin-left: auto;
+   max-width: 1140px;
+   box-sizing: border-box;
+   font-size: 0;
+}
+@media all and (max-width:768px) 
+{
+#servicesCardContainer
+{
+   flex-direction: column;
+   flex-wrap: nowrap;
+}
+}
+#wb_howLayoutGrid
+{
+   clear: both;
+   position: relative;
+   table-layout: fixed;
+   display: table;
+   text-align: center;
+   width: 100%;
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #CCCCCC;
+   border-radius: 0px;
+   box-sizing: border-box;
+   margin: 0;
+}
+#howLayoutGrid
+{
+   box-sizing: border-box;
+   padding: 0 15px 0 15px;
+   margin-right: auto;
+   margin-left: auto;
+   max-width: 1140px;
+}
+#howLayoutGrid > .row
+{
+   margin-right: -15px;
+   margin-left: -15px;
+}
+#howLayoutGrid > .row > .col-1, #howLayoutGrid > .row > .col-2
+{
+   box-sizing: border-box;
+   font-size: 0;
+   min-height: 1px;
+   padding-right: 15px;
+   padding-left: 15px;
+   position: relative;
+}
+#howLayoutGrid > .row > .col-1, #howLayoutGrid > .row > .col-2
+{
+   float: left;
+}
+#howLayoutGrid > .row > .col-1
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #FFFFFF;
+   border-radius: 0px;
+   width: 50%;
+   text-align: left;
+}
+#howLayoutGrid > .row > .col-1 > .col-1-padding
+{
+   box-sizing: border-box;
+   width: 100%;
+   padding: 50px 0 50px 0;
+}
+#howLayoutGrid > .row > .col-2
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #FFFFFF;
+   border-radius: 0px;
+   width: 50%;
+   text-align: left;
+}
+#howLayoutGrid > .row > .col-2 > .col-2-padding
+{
+   box-sizing: border-box;
+   width: 100%;
+   padding: 50px 0 50px 0;
+}
+#howLayoutGrid:before,
+#howLayoutGrid:after,
+#howLayoutGrid .row:before,
+#howLayoutGrid .row:after
+{
+   display: table;
+   content: " ";
+}
+#howLayoutGrid:after,
+#howLayoutGrid .row:after
+{
+   clear: both;
+}
+@media (max-width: 768px)
+{
+#howLayoutGrid > .row > .col-1, #howLayoutGrid > .row > .col-2
+{
+   float: none;
+   width: 100% !important;
+}
+}
+#wb_whyLayoutGrid
+{
+   clear: both;
+   position: relative;
+   table-layout: fixed;
+   display: table;
+   text-align: center;
+   width: 100%;
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #CCCCCC;
+   border-radius: 0px;
+   box-sizing: border-box;
+   margin: 0;
+}
+#whyLayoutGrid
+{
+   box-sizing: border-box;
+   padding: 0 15px 0 15px;
+   margin-right: auto;
+   margin-left: auto;
+   max-width: 1140px;
+}
+#whyLayoutGrid > .row
+{
+   margin-right: -15px;
+   margin-left: -15px;
+}
+#whyLayoutGrid > .row > .col-1, #whyLayoutGrid > .row > .col-2
+{
+   box-sizing: border-box;
+   font-size: 0;
+   min-height: 1px;
+   padding-right: 15px;
+   padding-left: 15px;
+   position: relative;
+}
+#whyLayoutGrid > .row > .col-1, #whyLayoutGrid > .row > .col-2
+{
+   float: left;
+}
+#whyLayoutGrid > .row > .col-1
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #FFFFFF;
+   border-radius: 0px;
+   width: 50%;
+   text-align: left;
+}
+#whyLayoutGrid > .row > .col-1 > .col-1-padding
+{
+   box-sizing: border-box;
+   width: 100%;
+   padding: 50px 0 50px 0;
+}
+#whyLayoutGrid > .row > .col-2
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #FFFFFF;
+   border-radius: 0px;
+   width: 50%;
+   text-align: left;
+}
+#whyLayoutGrid > .row > .col-2 > .col-2-padding
+{
+   box-sizing: border-box;
+   width: 100%;
+   padding: 50px 0 50px 0;
+}
+#whyLayoutGrid:before,
+#whyLayoutGrid:after,
+#whyLayoutGrid .row:before,
+#whyLayoutGrid .row:after
+{
+   display: table;
+   content: " ";
+}
+#whyLayoutGrid:after,
+#whyLayoutGrid .row:after
+{
+   clear: both;
+}
+@media (max-width: 768px)
+{
+#whyLayoutGrid > .row > .col-1, #whyLayoutGrid > .row > .col-2
+{
+   float: none;
+   width: 100% !important;
+}
+}
+#wb_introHeading
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #F45151;
+   border-radius: 0px;
+   box-sizing: border-box;
+   vertical-align: top;
+   margin: 0 0 10px 0 ;
+   padding: 0;
+   text-align: left;
+}
+#introHeading
+{
+   color: #000000;
+   font-family: "Lucida Console";
+   font-weight: bold;
+   font-style: normal;
+   font-size: 20px;
+   line-height: 26px;
+   margin: 0;
+   text-align: left;
+   text-transform: none;
+}
+#wb_servicesHeading
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #FFFFFF;
+   border-radius: 0px;
+   box-sizing: border-box;
+   vertical-align: top;
+   margin: 0 0 10px 0 ;
+   padding: 0;
+   text-align: center;
+}
+#servicesHeading
+{
+   color: #E6E6FA;
+   font-family: "Open Sans Bold";
+   font-weight: bold;
+   font-style: normal;
+   font-size: 37px;
+   margin: 0;
+   text-align: center;
+   text-transform: none;
+}
+#wb_introImage
+{
+   margin: 0 0 0 40px;
+   vertical-align: top;
+}
+#introImage
+{
+   border: 0px solid #000000;
+   border-radius: 0px;
+   box-sizing: border-box;
+   padding: 0;
+   filter: drop-shadow(-40px -40px 0px rgba(230,230,250,1.00));
+   display: block;
+   width: 91.21%;
+   height: auto;
+   max-width: 455px;
+   margin-left: auto;
+   margin-right: auto;
+   vertical-align: top;
+}
+#wb_headerCssMenu
+{
+   border: 0px solid #000000;
+   border-radius: 6px;
+   background-color: transparent;
+   margin: 0;
+   text-align: left;
+   position: relative;
+   z-index: 1111 !important;
+}
+#wb_headerCssMenu ul
+{
+   list-style-type: none;
+   margin: 0;
+   padding: 0;
+    font-size: 0;
+}
+#wb_headerCssMenu > ul
+{
+   display: flex;
+   justify-content: space-between;
+}
+#wb_headerCssMenu li
+{
+   margin: 0;
+   padding: 0px 0px 0px 0px;
+}
+#wb_headerCssMenu a
+{
+   display: block;
+   color: #FFFFFF;
+   border: 0px solid #000000;
+   border-radius: 6px;
+   background-color: #000000;
+   background-image: none;
+   font-family: "Open Sans";
+   font-weight: normal;
+   font-size: 19px;
+   font-style: normal;
+   text-decoration: none;
+   text-transform: none;
+   text-align: center;
+   vertical-align: middle;
+}
+#wb_headerCssMenu > ul > li > a
+{
+   height: 32px;
+   line-height: 32px;
+   padding: 0px 16px 0px 16px;
+}
+#wb_headerCssMenu li:hover a, #wb_headerCssMenu a:hover, #wb_headerCssMenu .active
+{
+   color: #F293BD;
+   border: 0px solid #000000;
+   background-color: #FFFFFF;
+   background-image: none;
+}
+#wb_headerCssMenu li.firstmain
+{
+   padding-left: 0px;
+}
+#wb_headerCssMenu li.lastmain
+{
+   padding-right: 0px;
+}
+#wb_headerCssMenu br
+{
+   clear: both;
+   font-size: 1px;
+   height: 0;
+   line-height: 0;
+}
+#wb_servicesCard3
+{
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   flex-grow: 1;
+   flex-shrink: 1;
+   flex-basis: 0%;
+   align-self: auto;
+   box-sizing: border-box;
+   margin: 15px 15px 15px 15px;
+   background-color: #E6E6FA;
+   background-image: none;
+   border: 0px solid #DEE2E6;
+   border-radius: 0px;
+   text-align: center;
+}
+#servicesCard3-card-body
+{
+   padding: 30px 30px 30px 30px;
+   flex: 1 1 auto;
+   font-size: 0;
+}
+#servicesCard3-card-item0
+{
+   display: inline-block;
+   line-height: 1.0;
+   height: 48px;
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+   border: 0px solid #000000;
+   border-radius: 0px;
+   background-color: transparent;
+   background-image: none;
+   color: #8F7E6D;
+   font-family: "Open Sans";
+   font-weight: normal;
+   font-style: normal;
+   font-size: 48px;
+}
+#servicesCard3-card-item0 i
+{
+   margin-right: 0px;
+   text-align: center;
+   vertical-align: top;
+   font-size: 48px;
+   width: 48px;
+}
+#servicesCard3-card-item1
+{
+   box-sizing: border-box;
+   margin: 20px 0 0 0 ;
+   padding: 0;
+}
+#servicesCard3-card-item1 h1
+{
+   color: #212529;
+   font-family: "Lucida Console";
+   font-weight: bold;
+   font-style: normal;
+   font-size: 27px;
+   margin: 0;
+}
+#servicesCard3-card-item2
+{
+   box-sizing: border-box;
+   margin: 20px 0 0 0 ;
+   padding: 0;
+}
+#servicesCard3-card-item2 h1
+{
+   color: #212529;
+   font-family: "Lucida Console";
+   font-weight: normal;
+   font-style: normal;
+   font-size: 19px;
+   margin: 0;
+}
+#wb_howHeading
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #F45151;
+   border-radius: 0px;
+   box-sizing: border-box;
+   vertical-align: top;
+   margin: 0 0 10px 0 ;
+   padding: 0;
+   text-align: left;
+}
+#howHeading
+{
+   color: #000000;
+   font-family: "Open Sans Bold";
+   font-weight: bold;
+   font-style: normal;
+   font-size: 35px;
+   margin: 0;
+   text-align: left;
+   text-transform: none;
+}
+#wb_howText 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   border-radius: 0px;
+   padding: 0;
+   margin: 0 0 20px 0 ;
+   text-align: left;
+}
+#wb_howText
+{
+   color: #111111;
+   font-family: "Lucida Console";
+   font-weight: 400;
+   font-size: 21px;
+   line-height: 22px;
+}
+#wb_howText p, #wb_howText ul
+{
+   margin: 0;
+   padding: 0;
+   list-style-position: inside;
+}
+#wb_howText
+{
+   display: block;
+   margin: 0 0 20px 0 ;
+   box-sizing: border-box;
+   width: 100%;
+}
+#wb_howImage
+{
+   margin: 0 0 0 40px;
+   vertical-align: top;
+}
+#howImage
+{
+   border: 0px solid #000000;
+   border-radius: 0px;
+   box-sizing: border-box;
+   padding: 0;
+   filter: drop-shadow(-40px 40px 0px rgba(0,0,0,1.00));
+   display: block;
+   width: 91.21%;
+   height: auto;
+   max-width: 455px;
+   margin-left: auto;
+   margin-right: auto;
+   vertical-align: top;
+}
+#wb_whyHeading
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #F45151;
+   border-radius: 0px;
+   box-sizing: border-box;
+   vertical-align: top;
+   margin: 0 0 10px 0 ;
+   padding: 0;
+   text-align: left;
+}
+#whyHeading
+{
+   color: #000000;
+   font-family: "Open Sans Bold";
+   font-weight: bold;
+   font-style: normal;
+   font-size: 35px;
+   margin: 0;
+   text-align: left;
+   text-transform: none;
+}
+#wb_whyText 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   border-radius: 0px;
+   padding: 0;
+   margin: 0 0 20px 0 ;
+   text-align: left;
+}
+#wb_whyText
+{
+   color: #000000;
+   font-family: "Open Sans";
+   font-weight: bold;
+   font-style: italic;
+   text-decoration: line-through;
+   font-size: 16px;
+   line-height: 18px;
+}
+#wb_whyText p, #wb_whyText ul
+{
+   margin: 0;
+   padding: 0;
+   list-style-position: inside;
+}
+#wb_whyText
+{
+   display: block;
+   margin: 0 0 20px 0 ;
+   box-sizing: border-box;
+   width: 100%;
+}
+#wb_whyImage
+{
+   margin: 0 0 0 40px;
+   vertical-align: top;
+}
+#whyImage
+{
+   border: 0px solid #000000;
+   border-radius: 0px;
+   box-sizing: border-box;
+   padding: 0;
+   filter: drop-shadow(-40px -40px 0px rgba(230,230,250,1.00));
+   display: block;
+   width: 91.21%;
+   height: auto;
+   max-width: 455px;
+   margin-left: auto;
+   margin-right: auto;
+   vertical-align: top;
+}
+#formListView
+{
+   font-family: "Open Sans";
+   font-weight: bold;
+   font-style: normal;
+   font-size: 0;
+   color: #000000;
+   border-width: 0;
+   width: 100%;
+   display: flex;
+   flex-wrap: wrap;
+}
+#formListView .btn
+{
+   cursor: pointer;
+   margin: .5em 0;
+   padding: 6px 18px 6px 10px;
+   display: block;
+   overflow: hidden;
+   position: relative;
+   text-align: center;
+   text-decoration: none;
+   text-overflow: ellipsis;
+}
+#formListView .btn
+{
+   border-width: 1px;
+   border-style: solid;
+}
+#formListView, #formListView > li 
+{
+   margin: 0;
+   padding: 0;
+   list-style: none;
+   font-size: 19px;
+}
+#formListView > li 
+{
+   display: block;
+   position: relative;
+   overflow: visible;
+   box-sizing: border-box;
+}
+#formListView > .li-static, #formListView > .li-divider, #formListView > li > a.btn 
+{
+   display: block;
+   position: relative;
+   text-align: left;
+   text-overflow: ellipsis;
+   overflow: hidden;
+}
+#formListView > .li-static, #formListView > .li-divider, #formListView > li > a.btn 
+{
+   border-style: solid;
+   border-width: 1px 1px 0 1px;
+   font-weight: bold;
+   text-align: left;
+   margin: 0;
+   flex: 1 0 100%;
+}
+#formListView > li
+{
+   margin: 0;
+   flex: 1 0 100%;
+}
+#formListView .state-default
+{
+   border-color: #F0E5DB;
+   background-color: transparent;
+   background-image: none;
+   color: #000000 !important;
+}
+#formListView .state-hover, #formListView .btn:hover
+{
+   border-color: #2B2B2B;
+   background-color: #2B2B2B;
+   background-image: none;
+   color: #FFFFFF !important;
+}
+#formListView .state-active
+{
+   border-color: #2E6DA4;
+   background-color: #3370B7;
+   background-image: none;
+   color: #000000 !important;
+}
+#formListView > .li-divider 
+{
+   border-color: #DDDDDD;
+   background-color: #E9E9E9;
+   background-image: none;
+   color: #333333;
+   padding: 10px 10px 10px 10px;
+   cursor: default;
+   outline: 0;
+}
+#formListView > .li-static
+{
+   border-color: #FFFFFF;
+   background-color: transparent;
+   background-image: none;
+   padding: 6px 18px 6px 10px;
+}
+#formListView > li.first-child, #formListView > li.first-child > a.btn 
+{
+   border-top-left-radius: 4px;
+   border-top-right-radius: 4px;
+}
+#formListView > li.last-child, #formListView > li.last-child > a.btn
+{
+   border-bottom-left-radius: 4px;
+   border-bottom-right-radius: 4px;
+}
+#formListView > .li-has-icon > .btn, #formListView > .li-static.li-has-icon
+{
+   min-height: 0px;
+   padding-left: 10px;
+}
+#formListView > .li-divider.li-has-icon
+{
+   min-height: 0px;
+   padding-left: 10px;
+}
+#formListView > .li-has-icon.last-child > .btn, #formListView > .li-static.li-has-icon.last-child
+{
+   min-height: 0px;
+}
+#formListView > .li-divider.li-has-icon.last-child
+{
+   min-height: 0px;
+}
+#formListView > .li-static.last-child, #formListView > .li-divider.last-child, #formListView > li.last-child > a.btn 
+{
+   border-bottom-width: 1px;
+}
+#formListView > .li-has-icon > img:first-child, #formListView > .li-has-icon > .btn > img:first-child
+{
+   border-width: 0;
+   position: absolute;
+   left: 10px;
+   top: 6px;
+   margin-bottom: 0;
+   max-width: 0px;
+   max-height: 0px;
+}
+#formListView p
+{
+   margin: 0;
+   padding: 8px 0 0 47px;
+   font-size: 16px;
+   font-weight: normal;
+}
+#wb_formListView
+{
+   margin: 0;
+}
+#formListView .badge
+{
+   background-color: #007BFF;
+   border-radius: .25rem;
+   color: #FFFFFF;
+   display: inline-block;
+   float: right;
+   font-size: 75%;
+   font-weight: 700;
+   line-height: 1;
+   padding: .25em .4em;
+   text-align: center;
+   transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+   vertical-align: baseline;
+   white-space: nowrap;
+}
+#formListView i
+{
+   font-size: 32px;
+   width: 32px;
+   vertical-align: middle;
+   margin-right: 15px;
+   color: #000000;
+}
+#formListView .btn i
+{
+   color: #000000;
+}
+#formListView .btn:hover i
+{
+   color: #FFFFFF;
+}
+#formListView .li-divider i
+{
+   color: #333333;
+}
+#wb_Card4
+{
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   flex-grow: 1;
+   flex-shrink: 1;
+   flex-basis: 0%;
+   align-self: auto;
+   box-sizing: border-box;
+   margin: 15px 15px 15px 15px;
+   background-color: #E6E6FA;
+   background-image: none;
+   border: 0px solid #DEE2E6;
+   border-radius: 0px;
+   text-align: center;
+}
+#Card4-card-body
+{
+   padding: 30px 30px 30px 30px;
+   flex: 1 1 auto;
+   font-size: 0;
+}
+#Card4-card-item0
+{
+   display: inline-block;
+   line-height: 1.0;
+   height: 48px;
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+   border: 0px solid #000000;
+   border-radius: 0px;
+   background-color: transparent;
+   background-image: none;
+   color: #8F7E6D;
+   font-family: "Open Sans";
+   font-weight: normal;
+   font-style: normal;
+   font-size: 48px;
+}
+#Card4-card-item0 i
+{
+   margin-right: 0px;
+   text-align: center;
+   vertical-align: top;
+   font-size: 48px;
+   width: 48px;
+}
+#Card4-card-item1
+{
+   box-sizing: border-box;
+   margin: 20px 0 0 0 ;
+   padding: 0;
+}
+#Card4-card-item1 h1
+{
+   color: #212529;
+   font-family: "Lucida Console";
+   font-weight: bold;
+   font-style: normal;
+   font-size: 27px;
+   margin: 0;
+}
+#Card4-card-item2
+{
+   box-sizing: border-box;
+   margin: 20px 0 0 0 ;
+   padding: 0;
+}
+#Card4-card-item2 h1
+{
+   color: #212529;
+   font-family: "Lucida Console";
+   font-weight: normal;
+   font-style: normal;
+   font-size: 19px;
+   margin: 0;
+}
+#wb_Card5
+{
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   flex-grow: 1;
+   flex-shrink: 1;
+   flex-basis: 0%;
+   align-self: auto;
+   box-sizing: border-box;
+   margin: 15px 15px 15px 15px;
+   background-color: #E6E6FA;
+   background-image: none;
+   border: 0px solid #DEE2E6;
+   border-radius: 0px;
+   text-align: center;
+}
+#Card5-card-body
+{
+   padding: 30px 30px 30px 30px;
+   flex: 1 1 auto;
+   font-size: 0;
+}
+#Card5-card-item0
+{
+   display: inline-block;
+   line-height: 1.0;
+   height: 48px;
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+   border: 0px solid #000000;
+   border-radius: 0px;
+   background-color: transparent;
+   background-image: none;
+   color: #8F7E6D;
+   font-family: "Open Sans";
+   font-weight: normal;
+   font-style: normal;
+   font-size: 48px;
+}
+#Card5-card-item0 i
+{
+   margin-right: 0px;
+   text-align: center;
+   vertical-align: top;
+   font-size: 48px;
+   width: 48px;
+}
+#Card5-card-item1
+{
+   box-sizing: border-box;
+   margin: 20px 0 0 0 ;
+   padding: 0;
+}
+#Card5-card-item1 h1
+{
+   color: #212529;
+   font-family: "Lucida Console";
+   font-weight: bold;
+   font-style: normal;
+   font-size: 27px;
+   margin: 0;
+}
+#Card5-card-item2
+{
+   box-sizing: border-box;
+   margin: 20px 0 0 0 ;
+   padding: 0;
+}
+#Card5-card-item2 h1
+{
+   color: #212529;
+   font-family: "Lucida Console";
+   font-weight: normal;
+   font-style: normal;
+   font-size: 19px;
+   margin: 0;
+}
+#wb_Card6
+{
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   flex-grow: 1;
+   flex-shrink: 1;
+   flex-basis: 0%;
+   align-self: auto;
+   box-sizing: border-box;
+   margin: 15px 15px 15px 15px;
+   background-color: #E6E6FA;
+   background-image: none;
+   border: 0px solid #DEE2E6;
+   border-radius: 0px;
+   text-align: center;
+}
+#Card6-card-body
+{
+   padding: 30px 30px 30px 30px;
+   flex: 1 1 auto;
+   font-size: 0;
+}
+#Card6-card-item0
+{
+   display: inline-block;
+   line-height: 1.0;
+   height: 48px;
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+   border: 0px solid #000000;
+   border-radius: 0px;
+   background-color: transparent;
+   background-image: none;
+   color: #8F7E6D;
+   font-family: "Open Sans";
+   font-weight: normal;
+   font-style: normal;
+   font-size: 48px;
+}
+#Card6-card-item0 i
+{
+   margin-right: 0px;
+   text-align: center;
+   vertical-align: top;
+   font-size: 48px;
+   width: 48px;
+}
+#Card6-card-item1
+{
+   box-sizing: border-box;
+   margin: 20px 0 0 0 ;
+   padding: 0;
+}
+#Card6-card-item1 h1
+{
+   color: #212529;
+   font-family: "Lucida Console";
+   font-weight: bold;
+   font-style: normal;
+   font-size: 27px;
+   margin: 0;
+}
+#Card6-card-item2
+{
+   box-sizing: border-box;
+   margin: 20px 0 0 0 ;
+   padding: 0;
+}
+#Card6-card-item2 h1
+{
+   color: #212529;
+   font-family: "Lucida Console";
+   font-weight: normal;
+   font-style: normal;
+   font-size: 19px;
+   margin: 0;
+}
+#wb_Card1
+{
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   flex-grow: 1;
+   flex-shrink: 1;
+   flex-basis: 0%;
+   align-self: auto;
+   box-sizing: border-box;
+   margin: 15px 15px 15px 15px;
+   background-color: #E6E6FA;
+   background-image: none;
+   border: 0px solid #DEE2E6;
+   border-radius: 0px;
+   text-align: center;
+}
+#Card1-card-body
+{
+   padding: 30px 30px 30px 30px;
+   flex: 1 1 auto;
+   font-size: 0;
+}
+#Card1-card-item0
+{
+   display: inline-block;
+   line-height: 1.0;
+   height: 48px;
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+   border: 0px solid #000000;
+   border-radius: 0px;
+   background-color: transparent;
+   background-image: none;
+   color: #8F7E6D;
+   font-family: "Open Sans";
+   font-weight: normal;
+   font-style: normal;
+   font-size: 48px;
+}
+#Card1-card-item0 i
+{
+   margin-right: 0px;
+   text-align: center;
+   vertical-align: top;
+   font-size: 48px;
+   width: 48px;
+}
+#Card1-card-item1
+{
+   box-sizing: border-box;
+   margin: 20px 0 0 0 ;
+   padding: 0;
+}
+#Card1-card-item1 h1
+{
+   color: #212529;
+   font-family: "Lucida Console";
+   font-weight: bold;
+   font-style: normal;
+   font-size: 27px;
+   margin: 0;
+}
+#Card1-card-item2
+{
+   box-sizing: border-box;
+   margin: 20px 0 0 0 ;
+   padding: 0;
+}
+#Card1-card-item2 h1
+{
+   color: #212529;
+   font-family: "Lucida Console";
+   font-weight: normal;
+   font-style: normal;
+   font-size: 19px;
+   margin: 0;
+}
+#wb_Text1 
+{
+   background-color: transparent;
+   background-image: none;
+   border: 0px solid #000000;
+   border-radius: 0px;
+   padding: 0;
+   margin: 0;
+   text-align: left;
+}
+#wb_Text1 div
+{
+   text-align: left;
+}
+</style>
+</head>
+<body>
+<div id="wb_headerLayoutGrid">
+<div id="headerLayoutGrid">
+<div class="col-1">
+<nav id="wb_headerCssMenu" style="display:inline-block;width:546px;height:33px;z-index:0;">
+<ul id="headerCssMenu" role="menubar" class="nav">
+<li role="menuitem" class="nav-item firstmain"><a class="nav-link" href="#introLayoutGrid" target="_self">me</a>
+</li>
+<li role="menuitem" class="nav-item"><a class="nav-link" href="#servicesCardContainer" target="_self">skill</a>
+</li>
+<li role="menuitem" class="nav-item"><a class="nav-link" href="#testimonialsLayoutGrid" target="_self">experience</a>
+</li>
+<li role="menuitem" class="nav-item"><a class="nav-link" href="#formLayoutGrid" target="_self">contact</a>
+</li>
+</ul>
+
+</nav>
+</div>
+</div>
+</div>
+<div id="wb_introLayoutGrid">
+<div id="introLayoutGrid">
+<div class="row">
+<div class="col-1">
+<div class="col-1-padding">
+<div id="wb_introImage" style="display:block;width:calc(100% - 40px);height:auto;z-index:1;">
+<a href="https://www.freepik.com/free-photo/delicious-ice-cream_7184422.htm#query=ice%20cream&position=31&from_view=search&track=sph" target="_blank" title="Image by Racool_studio on Freepik"><img src="{% static 'images/photo_2026-05-17_19-13-54.jpg' %}" id="introImage" alt="" width="415" height="304"></a>
+</div>
+</div>
+</div>
+<div class="col-2">
+<div class="col-2-padding">
+<div id="wb_introHeading" style="display:block;width:100%;z-index:2;">
+<h2 id="introHeading">Привет, я — mdull. Разработчик C# C++ Kotlin Python | Специалист по тестированию и БД<br><br>Hi, I'm mdull. C# C++ Kotlin Python Developer | Testing and Database Specialist</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="wb_servicesLayoutGrid">
+<div id="servicesLayoutGrid">
+<div class="row">
+<div class="col-1">
+<div id="wb_servicesHeading" style="display:block;width:100%;z-index:3;">
+<h2 id="servicesHeading">SKILL</h2>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="wb_servicesCardContainer">
+<div id="servicesCardContainer">
+<div id="wb_servicesCard3" style="display:flex;z-index:4;" class="card">
+<div id="servicesCard3-card-body">
+<div id="servicesCard3-card-item0"><i class="fa fa-brands fa-android"></i></div>
+<div id="servicesCard3-card-item1"><h1>Mobile Development (Kotlin)</h1></div>
+<div id="servicesCard3-card-item2"><h1>Разработка нативных Android-приложений в Android Studio. Использование Jetpack Compose<br>Developing native Android applications in Android Studio. Using Jetpack Compose</h1></div>
+</div>
+</div>
+<div id="wb_Card4" style="display:flex;z-index:5;" class="card">
+<div id="Card4-card-body">
+<div id="Card4-card-item0"><i class="fa fa-bars-progress"></i></div>
+<div id="Card4-card-item1"><h1>C++ / ООP</h1></div>
+<div id="Card4-card-item2"><h1>Понимание объектно-ориентированного программирования, UML, паттернов проектирования<br>Understanding object-oriented programming, UML, and design patterns</h1></div>
+</div>
+</div>
+<div id="wb_Card5" style="display:flex;z-index:6;" class="card">
+<div id="Card5-card-body">
+<div id="Card5-card-item0"><i class="fa fa-user-secret"></i></div>
+<div id="Card5-card-item1"><h1>Testing</h1></div>
+<div id="Card5-card-item2"><h1>Поддержка и тестирование программных модулей. Использование DevTools, pytest<br>Support and testing of software modules. Using DevTools, pytes</h1></div>
+</div>
+</div>
+<div id="wb_Card6" style="display:flex;z-index:7;" class="card">
+<div id="Card6-card-body">
+<div id="Card6-card-item0"><i class="fa fa-unlock-alt"></i></div>
+<div id="Card6-card-item1"><h1>Databases (SQL)</h1></div>
+<div id="Card6-card-item2"><h1>Проектирование реляционных баз данных.Работа с MySQL<br>Relational database design. Working with MySQL</h1></div>
+</div>
+</div>
+<div id="wb_Card1" style="display:flex;z-index:8;" class="card">
+<div id="Card1-card-body">
+<div id="Card1-card-item0"><i class="fa fa-regular fa-edit"></i></div>
+<div id="Card1-card-item1"><h1>Python</h1></div>
+<div id="Card1-card-item2"><h1>Написание скриптов, тестирование (pytest), работа с Django (создание веб-приложений).<br>Writing scripts, testing (pytest), and working with Django (creating web applications).</h1></div>
+</div>
+</div>
+</div>
+</div>
+<div id="wb_howLayoutGrid">
+<div id="howLayoutGrid">
+<div class="row">
+<div class="col-1">
+<div class="col-1-padding">
+<div id="wb_howHeading" style="display:block;width:100%;z-index:9;">
+<h2 id="howHeading">EXPERIENCE WITH TOOLS</h2>
+</div>
+<div id="wb_howText">
+<br>
+<p>Languages: C#, C++, Kotlin, Python, SQL</p>
+<p>Frameworks: WPF, Windows Forms, Django, Room</p>
+<p>Environments: Visual Studio, Android Studio, VS Code</p>
+<p>Testing: pytest, Postman, DevTools</p>
+<p>Documentation: Sphinx, UML diagrams</p>
+<p>Databases: MySQL, </p>
+</div>
+</div>
+</div>
+<div class="col-2">
+<div class="col-2-padding">
+<div id="wb_howImage" style="display:block;width:calc(100% - 40px);height:auto;z-index:11;">
+<a href="https://www.freepik.com/free-photo/delicious-ice-cream_7184422.htm#query=ice%20cream&position=31&from_view=search&track=sph" target="_blank" title="Image by Racool_studio on Freepik"><img src="{% static 'images/photo_2026-05-17_19-14-03.jpg' %}" id="howImage" alt="" width="415" height="738"></a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="wb_whyLayoutGrid">
+<div id="whyLayoutGrid">
+<div class="row">
+<div class="col-1">
+<div class="col-1-padding">
+<div id="wb_whyImage" style="display:block;width:calc(100% - 40px);height:auto;z-index:12;">
+<a href="https://www.freepik.com/free-photo/delicious-ice-cream_7184422.htm#query=ice%20cream&position=31&from_view=search&track=sph" target="_blank" title="Image by Racool_studio on Freepik"><img src="{% static 'images/photo_2026-05-17_19-17-31.jpg' %}" id="whyImage" alt="" width="415" height="558"></a>
+</div>
+</div>
+</div>
+<div class="col-2">
+<div class="col-2-padding">
+<div id="wb_whyHeading" style="display:block;width:100%;z-index:13;">
+<h2 id="whyHeading">contact</h2>
+</div>
+<div id="wb_whyText">
+<br>
+</div>
+<div id="wb_formListView" style="display:block;width:100%;z-index:15;">
+<ul id="formListView">
+   <li class="li-has-icon first-child"><a href="mailto:info@wysiwygmail.com" class="state-default btn"><i class="fa fa-"></i>Mail<p>mdull3777@gmail.com</p></a></li>
+   <li class="li-has-icon"><a href="http://twitter.com/wysiwyg_wb" class="state-default btn"><i class="fa fa-"></i>tg<p>@mdu1l</p></a></li>
+   <li class="li-has-icon last-child"><a href="https://www.wysiwygwebbuilder.com" class="state-default btn"><i class="fa fa-"></i>Git.Hub<p>https://github.com/mdull2008</p></a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="wb_Text1" style="position:absolute;left:201px;top:1542px;width:357px;height:16px;z-index:22;">
+<span style="color:#000000;font-family:'Open Sans';font-size:13px;">pytest&nbsp; </span></div>
+</body>
+</html>
