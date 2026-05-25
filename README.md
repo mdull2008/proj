@@ -7,6 +7,7 @@
 ```bash
 python3 -m pip install -r requirements.txt
 python3 manage.py migrate
+python3 manage.py createsuperuser
 python3 manage.py runserver
 ```
 
@@ -15,3 +16,9 @@ python3 manage.py runserver
 
 Статика подключена из папки `DJANGO/`, поэтому загруженные `css`, `fonts` и `images`
 используются на сайте через Django staticfiles.
+
+Для production-сборки статики используйте:
+
+```bash
+python3 manage.py collectstatic
+```
