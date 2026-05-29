@@ -284,6 +284,85 @@ body
    flex-wrap: nowrap;
 }
 }
+.skill-card
+{
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   flex-grow: 1;
+   flex-shrink: 1;
+   flex-basis: 0%;
+   align-self: auto;
+   box-sizing: border-box;
+   margin: 15px 15px 15px 15px;
+   background-color: #E6E6FA;
+   background-image: none;
+   border: 0px solid #DEE2E6;
+   border-radius: 0px;
+   text-align: center;
+}
+.skill-card-body
+{
+   padding: 30px 30px 30px 30px;
+   flex: 1 1 auto;
+   font-size: 0;
+}
+.skill-card-icon
+{
+   display: inline-block;
+   line-height: 1.0;
+   height: 48px;
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+   border: 0px solid #000000;
+   border-radius: 0px;
+   background-color: transparent;
+   background-image: none;
+   color: #8F7E6D;
+   font-family: "Open Sans";
+   font-weight: normal;
+   font-style: normal;
+   font-size: 48px;
+}
+.skill-card-icon i
+{
+   margin-right: 0px;
+   text-align: center;
+   vertical-align: top;
+   font-size: 48px;
+   width: 48px;
+}
+.skill-card-title
+{
+   box-sizing: border-box;
+   margin: 20px 0 0 0 ;
+   padding: 0;
+}
+.skill-card-title h1
+{
+   color: #212529;
+   font-family: "Lucida Console";
+   font-weight: bold;
+   font-style: normal;
+   font-size: 27px;
+   margin: 0;
+}
+.skill-card-text
+{
+   box-sizing: border-box;
+   margin: 20px 0 0 0 ;
+   padding: 0;
+}
+.skill-card-text h1
+{
+   color: #212529;
+   font-family: "Lucida Console";
+   font-weight: normal;
+   font-style: normal;
+   font-size: 19px;
+   margin: 0;
+}
 #wb_howLayoutGrid
 {
    clear: both;
@@ -1364,11 +1443,13 @@ body
 <div id="wb_headerLayoutGrid">
 <div id="headerLayoutGrid">
 <div class="col-1">
-<nav id="wb_headerCssMenu" style="display:inline-block;width:546px;height:33px;z-index:0;">
+<nav id="wb_headerCssMenu" style="display:inline-block;width:680px;height:33px;z-index:0;">
 <ul id="headerCssMenu" role="menubar" class="nav">
 <li role="menuitem" class="nav-item firstmain"><a class="nav-link" href="#introLayoutGrid" target="_self">me</a>
 </li>
 <li role="menuitem" class="nav-item"><a class="nav-link" href="#servicesCardContainer" target="_self">skill</a>
+</li>
+<li role="menuitem" class="nav-item"><a class="nav-link" href="#models-database-skill" target="_self">models/db</a>
 </li>
 <li role="menuitem" class="nav-item"><a class="nav-link" href="#testimonialsLayoutGrid" target="_self">experience</a>
 </li>
@@ -1413,41 +1494,15 @@ body
 </div>
 <div id="wb_servicesCardContainer">
 <div id="servicesCardContainer">
-<div id="wb_servicesCard3" style="display:flex;z-index:4;" class="card">
-<div id="servicesCard3-card-body">
-<div id="servicesCard3-card-item0"><i class="fa fa-brands fa-android"></i></div>
-<div id="servicesCard3-card-item1"><h1>Mobile Development (Kotlin)</h1></div>
-<div id="servicesCard3-card-item2"><h1>Разработка нативных Android-приложений в Android Studio. Использование Jetpack Compose<br>Developing native Android applications in Android Studio. Using Jetpack Compose</h1></div>
+{% for skill in skills %}
+<div id="{{ skill.anchor }}" style="display:flex;z-index:{{ forloop.counter|add:3 }};" class="skill-card card">
+<div class="skill-card-body">
+<div class="skill-card-icon"><i class="{{ skill.icon_classes }}"></i></div>
+<div class="skill-card-title"><h1>{{ skill.title }}</h1></div>
+<div class="skill-card-text"><h1>{{ skill.description_ru }}<br>{{ skill.description_en }}</h1></div>
 </div>
 </div>
-<div id="wb_Card4" style="display:flex;z-index:5;" class="card">
-<div id="Card4-card-body">
-<div id="Card4-card-item0"><i class="fa fa-bars-progress"></i></div>
-<div id="Card4-card-item1"><h1>C++ / ООP</h1></div>
-<div id="Card4-card-item2"><h1>Понимание объектно-ориентированного программирования, UML, паттернов проектирования<br>Understanding object-oriented programming, UML, and design patterns</h1></div>
-</div>
-</div>
-<div id="wb_Card5" style="display:flex;z-index:6;" class="card">
-<div id="Card5-card-body">
-<div id="Card5-card-item0"><i class="fa fa-user-secret"></i></div>
-<div id="Card5-card-item1"><h1>Testing</h1></div>
-<div id="Card5-card-item2"><h1>Поддержка и тестирование программных модулей. Использование DevTools, pytest<br>Support and testing of software modules. Using DevTools, pytes</h1></div>
-</div>
-</div>
-<div id="wb_Card6" style="display:flex;z-index:7;" class="card">
-<div id="Card6-card-body">
-<div id="Card6-card-item0"><i class="fa fa-unlock-alt"></i></div>
-<div id="Card6-card-item1"><h1>Databases (SQL)</h1></div>
-<div id="Card6-card-item2"><h1>Проектирование реляционных баз данных.Работа с MySQL<br>Relational database design. Working with MySQL</h1></div>
-</div>
-</div>
-<div id="wb_Card1" style="display:flex;z-index:8;" class="card">
-<div id="Card1-card-body">
-<div id="Card1-card-item0"><i class="fa fa-regular fa-edit"></i></div>
-<div id="Card1-card-item1"><h1>Python</h1></div>
-<div id="Card1-card-item2"><h1>Написание скриптов, тестирование (pytest), работа с Django (создание веб-приложений).<br>Writing scripts, testing (pytest), and working with Django (creating web applications).</h1></div>
-</div>
-</div>
+{% endfor %}
 </div>
 </div>
 <div id="wb_howLayoutGrid">
