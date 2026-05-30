@@ -14,7 +14,7 @@ namespace ConsoleBank
             Application.SetCompatibleTextRenderingDefault(false);
             servis = new BankovskiyServis(ObrabotatOperaciyu);
             servis.ZagruzitBazu();
-            BankDialogi.Info("Добро пожаловать в консольный банк");
+            BankDialogi.Privetstvie();
 
             while (true)
             {
@@ -35,10 +35,7 @@ namespace ConsoleBank
                 else if (vybor == "7") DialogZagruzka();
                 else if (vybor == "8") DialogSohranenie();
                 else if (vybor == "9") Sverka();
-                else
-                {
-                    BankDialogi.Oshibka("Нет такого пункта меню");
-                }
+                else BankDialogi.NetPunktaMenu();
             }
         }
 
@@ -66,31 +63,20 @@ namespace ConsoleBank
             Console.Write("Выберите пункт: ");
         }
 
-        static void PokazatRezultat(string text)
-        {
-            Console.WriteLine(text);
-            if (text.Contains("не") || text.Contains("Недостаточно") || text.Contains("отмен"))
-                BankDialogi.Oshibka(text);
-            else if (text.Contains("Сначала"))
-                BankDialogi.Preduprezhdenie(text);
-            else
-                BankDialogi.Info(text);
-        }
-
         static bool Vyhod()
         {
-            if (BankDialogi.DaNet("Сохранить данные и выйти?"))
+            if (BankDialogi.VyhodSohranit())
             {
                 servis.SohranitBazu();
-                BankDialogi.Info("До свидания");
+                BankDialogi.DoSvidaniya();
                 return true;
             }
-            if (BankDialogi.DaNet("Выйти без сохранения?"))
+            if (BankDialogi.VyhodBezSohraneniya())
             {
-                BankDialogi.Info("До свидания");
+                BankDialogi.DoSvidaniya();
                 return true;
             }
-            BankDialogi.Preduprezhdenie("Выход отменен");
+            BankDialogi.VyhodOtmenen();
             return false;
         }
 
@@ -100,7 +86,12 @@ namespace ConsoleBank
             string login = Console.ReadLine();
             Console.Write("Пароль: ");
             string parol = Console.ReadLine();
-            PokazatRezultat(servis.Registraciya(login, parol));
+            string rez = servis.Registraciya(login, parol);
+            Console.WriteLine(rez);
+            if (rez == "Счет создан")
+                BankDialogi.SchetSozdan(login);
+            else
+                BankDialogi.LoginZanyat();
         }
 
         static void Vhod()
@@ -109,13 +100,24 @@ namespace ConsoleBank
             string login = Console.ReadLine();
             Console.Write("Пароль: ");
             string parol = Console.ReadLine();
-            PokazatRezultat(servis.Vhod(login, parol));
+            string rez = servis.Vhod(login, parol);
+            Console.WriteLine(rez);
+            if (rez == "Вы вошли в систему")
+                BankDialogi.VhodUspeshno(login);
+            else if (rez == "Пользователь не найден")
+                BankDialogi.KlientNeNayden();
+            else if (rez == "Неверный пароль")
+                BankDialogi.NeverniyParol();
         }
 
         static void Balans()
         {
-            string text = servis.PoluchitBalans();
-            PokazatRezultat(text);
+            string rez = servis.PoluchitBalans();
+            Console.WriteLine(rez);
+            if (rez == "Сначала войдите в систему")
+                BankDialogi.NetVhoda();
+            else if (servis.Tekushiy != null)
+                BankDialogi.PokazatBalans(servis.Tekushiy.Balans);
         }
 
         static decimal ChitatSummu()
@@ -125,7 +127,7 @@ namespace ConsoleBank
             decimal sum;
             if (!decimal.TryParse(s, out sum))
             {
-                BankDialogi.Oshibka("Введите число");
+                BankDialogi.NevernayaSumma();
                 return -1;
             }
             return sum;
@@ -133,50 +135,112 @@ namespace ConsoleBank
 
         static void Popolnit()
         {
+            if (servis.Tekushiy == null)
+            {
+                BankDialogi.NetVhoda();
+                return;
+            }
             decimal sum = ChitatSummu();
-            if (sum <= 0) return;
-            if (BankDialogi.DaNet("Пополнить счет на " + sum + " руб.?"))
-                PokazatRezultat(servis.Popolnit(sum));
+            if (sum <= 0)
+            {
+                BankDialogi.SummaNePodhodit();
+                return;
+            }
+            if (!BankDialogi.PodtverditPopolnenie(sum))
+            {
+                BankDialogi.OperaciyaOtmenena();
+                return;
+            }
+            string rez = servis.Popolnit(sum);
+            Console.WriteLine(rez);
+            if (rez == "Пополнение выполнено")
+                BankDialogi.PopolnenieUspeshno(sum, servis.Tekushiy.Balans);
+            else if (rez == "Сначала войдите в систему")
+                BankDialogi.NetVhoda();
         }
 
         static void Snyat()
         {
+            if (servis.Tekushiy == null)
+            {
+                BankDialogi.NetVhoda();
+                return;
+            }
             decimal sum = ChitatSummu();
-            if (sum <= 0) return;
-            if (BankDialogi.DaNet("Снять " + sum + " руб.?"))
-                PokazatRezultat(servis.Snyat(sum));
+            if (sum <= 0)
+            {
+                BankDialogi.SummaNePodhodit();
+                return;
+            }
+            if (!BankDialogi.PodtverditSnyatie(sum))
+            {
+                BankDialogi.OperaciyaOtmenena();
+                return;
+            }
+            string rez = servis.Snyat(sum);
+            Console.WriteLine(rez);
+            if (rez == "Снятие выполнено")
+                BankDialogi.SnyatieUspeshno(sum, servis.Tekushiy.Balans);
+            else if (rez == "Недостаточно средств")
+                BankDialogi.NedostatochnoSredstv();
+            else if (rez == "Сначала войдите в систему")
+                BankDialogi.NetVhoda();
         }
 
         static void Perevod()
         {
+            if (servis.Tekushiy == null)
+            {
+                BankDialogi.NetVhoda();
+                return;
+            }
             Console.Write("Логин получателя: ");
             string login = Console.ReadLine();
             decimal sum = ChitatSummu();
-            if (sum <= 0) return;
-            if (BankDialogi.DaNet("Перевести " + sum + " руб. клиенту " + login + "?"))
-                PokazatRezultat(servis.Perevod(login, sum));
+            if (sum <= 0)
+            {
+                BankDialogi.SummaNePodhodit();
+                return;
+            }
+            if (!BankDialogi.PodtverditPerevod(login, sum))
+            {
+                BankDialogi.OperaciyaOtmenena();
+                return;
+            }
+            string rez = servis.Perevod(login, sum);
+            Console.WriteLine(rez);
+            if (rez == "Перевод выполнен")
+                BankDialogi.PerevodUspeshno(login, sum);
+            else if (rez == "Получатель не найден")
+                BankDialogi.PoluchatelNeNayden();
+            else if (rez == "Нельзя перевести себе")
+                BankDialogi.PerevodSebe();
+            else if (rez == "Недостаточно средств")
+                BankDialogi.NedostatochnoSredstv();
+            else if (rez == "Сначала войдите в систему")
+                BankDialogi.NetVhoda();
         }
 
         static void DialogZagruzka()
         {
-            string text = servis.ZagruzitIzDialoga();
-            Console.WriteLine(text);
-            if (text.Contains("отмен"))
-                BankDialogi.Preduprezhdenie(text);
+            string rez = servis.ZagruzitIzDialoga();
+            Console.WriteLine(rez);
+            if (rez == "Загрузка отменена")
+                BankDialogi.OperaciyaOtmenena();
         }
 
         static void DialogSohranenie()
         {
-            string text = servis.SohranitVDialog();
-            Console.WriteLine(text);
-            if (text.Contains("отмен"))
-                BankDialogi.Preduprezhdenie(text);
+            string rez = servis.SohranitVDialog();
+            Console.WriteLine(rez);
+            if (rez == "Сохранение отменено")
+                BankDialogi.OperaciyaOtmenena();
         }
 
         static void Sverka()
         {
             servis.SdelatSverku();
-            BankDialogi.Info("Сверка завершена. Смотрите консоль.");
+            BankDialogi.SverkaZavershena();
         }
     }
 }

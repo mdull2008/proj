@@ -217,30 +217,272 @@ namespace ConsoleBank
 
     class BankDialogi
     {
-        public static void Info(string text)
+        static void Pokazat(string text, string zagolovok, MessageBoxIcon ikonka)
         {
-            MessageBox.Show(text, "Консольный банк", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(text, zagolovok, MessageBoxButtons.OK, ikonka);
         }
 
-        public static void Oshibka(string text)
-        {
-            MessageBox.Show(text, "Консольный банк", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        public static void Preduprezhdenie(string text)
-        {
-            MessageBox.Show(text, "Консольный банк", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-        }
-
-        public static bool DaNet(string text)
+        static bool Sprosit(string text, string zagolovok, MessageBoxIcon ikonka)
         {
             DialogResult otvet = MessageBox.Show(
                 text,
-                "Консольный банк",
+                zagolovok,
                 MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
+                ikonka
             );
             return otvet == DialogResult.Yes;
+        }
+
+        public static void Privetstvie()
+        {
+            Pokazat(
+                "Консольный банк готов к работе.\nВыберите действие в меню.",
+                "Добро пожаловать",
+                MessageBoxIcon.Information
+            );
+        }
+
+        public static void NetPunktaMenu()
+        {
+            Pokazat(
+                "Такого номера нет в меню.\nВведите число от 0 до 9.",
+                "Ошибка меню",
+                MessageBoxIcon.Error
+            );
+        }
+
+        public static void NetVhoda()
+        {
+            Pokazat(
+                "Сначала войдите в систему (пункт 2).",
+                "Требуется вход",
+                MessageBoxIcon.Warning
+            );
+        }
+
+        public static void NevernayaSumma()
+        {
+            Pokazat(
+                "Сумма должна быть числом больше нуля.",
+                "Ошибка ввода",
+                MessageBoxIcon.Error
+            );
+        }
+
+        public static void LoginZanyat()
+        {
+            Pokazat(
+                "Этот логин уже есть или поле пустое.\nПридумайте другой логин.",
+                "Регистрация невозможна",
+                MessageBoxIcon.Warning
+            );
+        }
+
+        public static void SchetSozdan(string login)
+        {
+            Pokazat(
+                "Счет \"" + login + "\" открыт.\nБаланс: 0 руб.",
+                "Регистрация успешна",
+                MessageBoxIcon.Information
+            );
+        }
+
+        public static void VhodUspeshno(string login)
+        {
+            Pokazat(
+                "Вы вошли как " + login + ".\nМожно работать со счетом.",
+                "Вход выполнен",
+                MessageBoxIcon.Information
+            );
+        }
+
+        public static void KlientNeNayden()
+        {
+            Pokazat(
+                "Пользователь с таким логином не найден.",
+                "Ошибка входа",
+                MessageBoxIcon.Error
+            );
+        }
+
+        public static void NeverniyParol()
+        {
+            Pokazat(
+                "Пароль не подходит.\nПопробуйте еще раз.",
+                "Ошибка входа",
+                MessageBoxIcon.Error
+            );
+        }
+
+        public static void PokazatBalans(decimal balans)
+        {
+            Pokazat(
+                "На вашем счете:\n" + balans + " руб.",
+                "Баланс счета",
+                MessageBoxIcon.Information
+            );
+        }
+
+        public static bool PodtverditPopolnenie(decimal summa)
+        {
+            return Sprosit(
+                "Зачислить на счет " + summa + " руб.?",
+                "Подтверждение пополнения",
+                MessageBoxIcon.Question
+            );
+        }
+
+        public static bool PodtverditSnyatie(decimal summa)
+        {
+            return Sprosit(
+                "Выдать наличными " + summa + " руб.?",
+                "Подтверждение снятия",
+                MessageBoxIcon.Question
+            );
+        }
+
+        public static bool PodtverditPerevod(string komu, decimal summa)
+        {
+            return Sprosit(
+                "Перевести " + summa + " руб.\nполучателю " + komu + "?",
+                "Подтверждение перевода",
+                MessageBoxIcon.Question
+            );
+        }
+
+        public static void PopolnenieUspeshno(decimal summa, decimal balans)
+        {
+            Pokazat(
+                "Зачислено " + summa + " руб.\nНовый баланс: " + balans + " руб.",
+                "Пополнение выполнено",
+                MessageBoxIcon.Information
+            );
+        }
+
+        public static void SnyatieUspeshno(decimal summa, decimal balans)
+        {
+            Pokazat(
+                "Снято " + summa + " руб.\nОстаток: " + balans + " руб.",
+                "Снятие выполнено",
+                MessageBoxIcon.Information
+            );
+        }
+
+        public static void PerevodUspeshno(string komu, decimal summa)
+        {
+            Pokazat(
+                "Перевод " + summa + " руб.\nотправлен клиенту " + komu + ".",
+                "Перевод выполнен",
+                MessageBoxIcon.Information
+            );
+        }
+
+        public static void NedostatochnoSredstv()
+        {
+            Pokazat(
+                "На счете не хватает денег для этой операции.",
+                "Операция отклонена",
+                MessageBoxIcon.Warning
+            );
+        }
+
+        public static void PerevodSebe()
+        {
+            Pokazat(
+                "Нельзя переводить деньги на свой же счет.",
+                "Перевод невозможен",
+                MessageBoxIcon.Warning
+            );
+        }
+
+        public static void PoluchatelNeNayden()
+        {
+            Pokazat(
+                "Клиент с таким логином не найден.",
+                "Перевод невозможен",
+                MessageBoxIcon.Error
+            );
+        }
+
+        public static void SummaNePodhodit()
+        {
+            Pokazat(
+                "Сумма должна быть больше нуля.",
+                "Ошибка суммы",
+                MessageBoxIcon.Warning
+            );
+        }
+
+        public static void FaylZagruzhen(string put)
+        {
+            Pokazat(
+                "База клиентов загружена из файла:\n" + put,
+                "Файл открыт",
+                MessageBoxIcon.Information
+            );
+        }
+
+        public static void FaylSohranen(string put)
+        {
+            Pokazat(
+                "Данные записаны в файл:\n" + put,
+                "Файл сохранен",
+                MessageBoxIcon.Information
+            );
+        }
+
+        public static void OperaciyaOtmenena()
+        {
+            Pokazat(
+                "Действие отменено пользователем.",
+                "Отмена",
+                MessageBoxIcon.Warning
+            );
+        }
+
+        public static void SverkaZavershena()
+        {
+            Pokazat(
+                "Сверка памяти и bank.txt выполнена.\nПодробности в консоли.",
+                "Сверка данных",
+                MessageBoxIcon.Information
+            );
+        }
+
+        public static bool VyhodSohranit()
+        {
+            return Sprosit(
+                "Сохранить базу в bank.txt и выйти?",
+                "Выход из программы",
+                MessageBoxIcon.Question
+            );
+        }
+
+        public static bool VyhodBezSohraneniya()
+        {
+            return Sprosit(
+                "Выйти без сохранения изменений?",
+                "Внимание",
+                MessageBoxIcon.Warning
+            );
+        }
+
+        public static void DoSvidaniya()
+        {
+            Pokazat(
+                "Спасибо, что пользовались банком.",
+                "До свидания",
+                MessageBoxIcon.Information
+            );
+        }
+
+        public static void VyhodOtmenen()
+        {
+            Pokazat(
+                "Вы остались в программе.",
+                "Выход отменен",
+                MessageBoxIcon.Information
+            );
         }
     }
 
@@ -271,7 +513,7 @@ namespace ConsoleBank
                 k.Balans = balans;
                 baza.Dobavit(k);
             }
-            BankDialogi.Info("Файл загружен:\n" + otkrit.FileName);
+            BankDialogi.FaylZagruzhen(otkrit.FileName);
             return true;
         }
 
@@ -290,7 +532,7 @@ namespace ConsoleBank
                 stroki.Add(k.Login + ";" + k.Parol + ";" + k.Balans);
             }
             File.WriteAllLines(sohranit.FileName, stroki);
-            BankDialogi.Info("Файл сохранен:\n" + sohranit.FileName);
+            BankDialogi.FaylSohranen(sohranit.FileName);
             return true;
         }
     }
