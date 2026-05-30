@@ -3,11 +3,50 @@ using System.Collections.Generic;
 
 namespace ConsoleBank
 {
+    class OperaciyaInfo : EventArgs
+    {
+        public string Tekst;
+    }
+
     class Klient
     {
+        public event EventHandler<OperaciyaInfo> Operaciya;
+
         public string Login;
         public string Parol;
         public decimal Balans;
+
+        void Soobshit(string text)
+        {
+            if (Operaciya != null)
+                Operaciya(this, new OperaciyaInfo { Tekst = text });
+        }
+
+        public void Popolnit(decimal summa)
+        {
+            Balans += summa;
+            Soobshit("Пополнение на " + summa + " руб. Баланс: " + Balans);
+        }
+
+        public bool Snyat(decimal summa)
+        {
+            if (summa > Balans)
+                return false;
+            Balans -= summa;
+            Soobshit("Снятие " + summa + " руб. Баланс: " + Balans);
+            return true;
+        }
+
+        public bool Perevesti(Klient komu, decimal summa)
+        {
+            if (summa > Balans)
+                return false;
+            Balans -= summa;
+            komu.Balans += summa;
+            Soobshit("Перевод " + summa + " руб. клиенту " + komu.Login);
+            komu.Soobshit("Получен перевод " + summa + " руб. от " + Login);
+            return true;
+        }
     }
 
     class Program
@@ -19,6 +58,9 @@ namespace ConsoleBank
         {
             baza["admin"] = new Klient { Login = "admin", Parol = "admin", Balans = 10000 };
             baza["madina"] = new Klient { Login = "madina", Parol = "madina", Balans = 5000 };
+
+            foreach (Klient k in baza.Values)
+                k.Operaciya += ObrabotatOperaciyu;
 
             while (true)
             {
@@ -37,6 +79,11 @@ namespace ConsoleBank
                 else if (vybor == "6") Perevod();
                 else Console.WriteLine("Нет такого пункта");
             }
+        }
+
+        static void ObrabotatOperaciyu(object otpravitel, OperaciyaInfo e)
+        {
+            Console.WriteLine("[событие] " + e.Tekst);
         }
 
         static void PokazatMenu()
@@ -66,7 +113,9 @@ namespace ConsoleBank
             }
             Console.Write("Пароль: ");
             string parol = Console.ReadLine();
-            baza[login] = new Klient { Login = login, Parol = parol, Balans = 0 };
+            Klient noviy = new Klient { Login = login, Parol = parol, Balans = 0 };
+            noviy.Operaciya += ObrabotatOperaciyu;
+            baza[login] = noviy;
             Console.WriteLine("Счет создан");
         }
 
@@ -124,8 +173,7 @@ namespace ConsoleBank
             if (!ProveritVhod()) return;
             decimal sum = ChitatSummu();
             if (sum <= 0) return;
-            tekushiy.Balans += sum;
-            Console.WriteLine("Готово. Баланс: " + tekushiy.Balans);
+            tekushiy.Popolnit(sum);
         }
 
         static void Snyat()
@@ -133,13 +181,8 @@ namespace ConsoleBank
             if (!ProveritVhod()) return;
             decimal sum = ChitatSummu();
             if (sum <= 0) return;
-            if (sum > tekushiy.Balans)
-            {
+            if (!tekushiy.Snyat(sum))
                 Console.WriteLine("Недостаточно средств");
-                return;
-            }
-            tekushiy.Balans -= sum;
-            Console.WriteLine("Готово. Баланс: " + tekushiy.Balans);
         }
 
         static void Perevod()
@@ -159,14 +202,8 @@ namespace ConsoleBank
             }
             decimal sum = ChitatSummu();
             if (sum <= 0) return;
-            if (sum > tekushiy.Balans)
-            {
+            if (!tekushiy.Perevesti(baza[komu], sum))
                 Console.WriteLine("Недостаточно средств");
-                return;
-            }
-            tekushiy.Balans -= sum;
-            baza[komu].Balans += sum;
-            Console.WriteLine("Перевод выполнен");
         }
     }
 }
