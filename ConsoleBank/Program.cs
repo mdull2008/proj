@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 
 namespace ConsoleBank
 {
@@ -138,14 +139,64 @@ namespace ConsoleBank
         }
     }
 
+    class BankFaylDialog
+    {
+        public bool ZagruzitCherezDialog(SpisokKlientov<Klient> baza)
+        {
+            OpenFileDialog otkrit = new OpenFileDialog();
+            otkrit.Filter = "Файл банка (*.txt)|*.txt";
+            otkrit.Title = "Открыть базу клиентов";
+            if (otkrit.ShowDialog() != DialogResult.OK)
+                return false;
+            baza.Ochistit();
+            string[] stroki = File.ReadAllLines(otkrit.FileName);
+            foreach (string s in stroki)
+            {
+                if (s == "")
+                    continue;
+                string[] chasti = s.Split(';');
+                if (chasti.Length < 3)
+                    continue;
+                decimal balans = 0;
+                decimal.TryParse(chasti[2], out balans);
+                Klient k = new Klient();
+                k.Login = chasti[0];
+                k.Parol = chasti[1];
+                k.Balans = balans;
+                baza.Dobavit(k);
+            }
+            return true;
+        }
+
+        public bool SohranitCherezDialog(SpisokKlientov<Klient> baza)
+        {
+            SaveFileDialog sohranit = new SaveFileDialog();
+            sohranit.Filter = "Файл банка (*.txt)|*.txt";
+            sohranit.Title = "Сохранить базу клиентов";
+            sohranit.FileName = "bank.txt";
+            if (sohranit.ShowDialog() != DialogResult.OK)
+                return false;
+            List<string> stroki = new List<string>();
+            foreach (Klient k in baza.Vse())
+            {
+                stroki.Add(k.Login + ";" + k.Parol + ";" + k.Balans);
+            }
+            File.WriteAllLines(sohranit.FileName, stroki);
+            return true;
+        }
+    }
+
     class Program
     {
         static SpisokKlientov<Klient> baza = new SpisokKlientov<Klient>();
         static BankovskiyFayl fayl = new BankovskiyFayl("bank.txt");
+        static BankFaylDialog dialog = new BankFaylDialog();
         static Klient tekushiy = null;
 
+        [STAThread]
         static void Main(string[] args)
         {
+            Application.EnableVisualStyles();
             ZagruzitBazu();
 
             while (true)
@@ -164,6 +215,8 @@ namespace ConsoleBank
                 else if (vybor == "4") Popolnit();
                 else if (vybor == "5") Snyat();
                 else if (vybor == "6") Perevod();
+                else if (vybor == "7") ZagruzitIzFayla();
+                else if (vybor == "8") SohranitVFayl();
                 else Console.WriteLine("Нет такого пункта");
             }
         }
@@ -207,6 +260,8 @@ namespace ConsoleBank
             Console.WriteLine("4. Пополнить счет");
             Console.WriteLine("5. Снять деньги");
             Console.WriteLine("6. Перевод");
+            Console.WriteLine("7. Открыть файл (OpenFileDialog)");
+            Console.WriteLine("8. Сохранить файл (SaveFileDialog)");
             Console.WriteLine("0. Выход");
             Console.Write("Выберите пункт: ");
         }
@@ -297,6 +352,28 @@ namespace ConsoleBank
                 Console.WriteLine("Недостаточно средств");
             else
                 SohranitBazu();
+        }
+
+        static void PodpisatSobytiya()
+        {
+            foreach (Klient k in baza.Vse())
+                k.Operaciya += ObrabotatOperaciyu;
+        }
+
+        static void ZagruzitIzFayla()
+        {
+            if (dialog.ZagruzitCherezDialog(baza))
+            {
+                tekushiy = null;
+                PodpisatSobytiya();
+                Console.WriteLine("База загружена");
+            }
+        }
+
+        static void SohranitVFayl()
+        {
+            if (dialog.SohranitCherezDialog(baza))
+                Console.WriteLine("База сохранена");
         }
 
         static void Perevod()
