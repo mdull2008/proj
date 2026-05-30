@@ -139,6 +139,82 @@ namespace ConsoleBank
         }
     }
 
+    class EtapSverki
+    {
+        public void Proverit(SpisokKlientov<Klient> baza, string putFayla)
+        {
+            Console.WriteLine();
+            Console.WriteLine("========== СВЕРКА ==========");
+
+            decimal summaPam = 0;
+            foreach (Klient k in baza.Vse())
+                summaPam += k.Balans;
+
+            Console.WriteLine("В памяти программы:");
+            foreach (Klient k in baza.Vse())
+                Console.WriteLine("  " + k.Login + " - " + k.Balans + " руб.");
+            Console.WriteLine("Клиентов: " + baza.Vse().Count);
+            Console.WriteLine("Сумма балансов: " + summaPam + " руб.");
+
+            if (!File.Exists(putFayla))
+            {
+                Console.WriteLine("Файл " + putFayla + " не найден");
+                Console.WriteLine("============================");
+                return;
+            }
+
+            SpisokKlientov<Klient> izFayla = new SpisokKlientov<Klient>();
+            BankovskiyFayl f = new BankovskiyFayl(putFayla);
+            f.Zagruzit(izFayla);
+
+            decimal summaFayl = 0;
+            foreach (Klient k in izFayla.Vse())
+                summaFayl += k.Balans;
+
+            Console.WriteLine();
+            Console.WriteLine("В файле " + putFayla + ":");
+            foreach (Klient k in izFayla.Vse())
+                Console.WriteLine("  " + k.Login + " - " + k.Balans + " руб.");
+            Console.WriteLine("Клиентов: " + izFayla.Vse().Count);
+            Console.WriteLine("Сумма балансов: " + summaFayl + " руб.");
+
+            bool vseOk = true;
+            if (baza.Vse().Count != izFayla.Vse().Count)
+                vseOk = false;
+
+            foreach (Klient k in baza.Vse())
+            {
+                Klient vFayle = izFayla.Nayti(k.Login);
+                if (vFayle == null)
+                {
+                    Console.WriteLine("Нет в файле: " + k.Login);
+                    vseOk = false;
+                }
+                else if (vFayle.Balans != k.Balans)
+                {
+                    Console.WriteLine("Разный баланс: " + k.Login);
+                    vseOk = false;
+                }
+            }
+
+            foreach (Klient k in izFayla.Vse())
+            {
+                if (!baza.Est(k.Login))
+                {
+                    Console.WriteLine("Лишний в файле: " + k.Login);
+                    vseOk = false;
+                }
+            }
+
+            Console.WriteLine();
+            if (vseOk)
+                Console.WriteLine("Итог сверки: данные совпадают");
+            else
+                Console.WriteLine("Итог сверки: найдены отличия");
+            Console.WriteLine("============================");
+        }
+    }
+
     class BankFaylDialog
     {
         public bool ZagruzitCherezDialog(SpisokKlientov<Klient> baza)
@@ -191,6 +267,7 @@ namespace ConsoleBank
         static SpisokKlientov<Klient> baza = new SpisokKlientov<Klient>();
         static BankovskiyFayl fayl = new BankovskiyFayl("bank.txt");
         static BankFaylDialog dialog = new BankFaylDialog();
+        static EtapSverki sverka = new EtapSverki();
         static Klient tekushiy = null;
 
         [STAThread]
@@ -217,6 +294,7 @@ namespace ConsoleBank
                 else if (vybor == "6") Perevod();
                 else if (vybor == "7") ZagruzitIzFayla();
                 else if (vybor == "8") SohranitVFayl();
+                else if (vybor == "9") SdelatSverku();
                 else Console.WriteLine("Нет такого пункта");
             }
         }
@@ -262,6 +340,7 @@ namespace ConsoleBank
             Console.WriteLine("6. Перевод");
             Console.WriteLine("7. Открыть файл (OpenFileDialog)");
             Console.WriteLine("8. Сохранить файл (SaveFileDialog)");
+            Console.WriteLine("9. Сверка (память и bank.txt)");
             Console.WriteLine("0. Выход");
             Console.Write("Выберите пункт: ");
         }
@@ -374,6 +453,11 @@ namespace ConsoleBank
         {
             if (dialog.SohranitCherezDialog(baza))
                 Console.WriteLine("База сохранена");
+        }
+
+        static void SdelatSverku()
+        {
+            sverka.Proverit(baza, "bank.txt");
         }
 
         static void Perevod()

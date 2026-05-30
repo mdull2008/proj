@@ -1,0 +1,24 @@
+КОНСОЛЬНЫЙ БАНК C# - ЭТАПЫ ДЛЯ СВЕРКИ
+
+Этап 1 - Консольное меню
+  Регистрация, вход, баланс, пополнение, снятие, перевод
+
+Этап 2 - События
+  Класс Klient, событие Operaciya, обработчик ObrabotatOperaciyu
+
+Этап 3 - Generics
+  Класс SpisokKlientov<T> where T : Klient
+
+Этап 4 - Обертка для файла
+  Класс BankovskiyFayl, файл bank.txt
+
+Этап 5 - Диалоги файлов
+  Класс BankFaylDialog, OpenFileDialog, SaveFileDialog
+  Пункты меню 7 и 8
+
+Этап 6 - Сверка
+  Класс EtapSverki, пункт меню 9
+  Сравнение базы в памяти и в файле bank.txt
+
+Запуск: dotnet run
+Тест: admin/admin, madina/madina
