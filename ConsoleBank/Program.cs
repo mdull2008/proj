@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace ConsoleBank
 {
@@ -58,6 +59,11 @@ namespace ConsoleBank
             spisok.Add(klient);
         }
 
+        public void Ochistit()
+        {
+            spisok.Clear();
+        }
+
         public bool Est(string login)
         {
             foreach (T k in spisok)
@@ -84,20 +90,63 @@ namespace ConsoleBank
         }
     }
 
+    class BankovskiyFayl
+    {
+        string put;
+
+        public BankovskiyFayl(string imyaFayla)
+        {
+            put = imyaFayla;
+        }
+
+        public bool EstFayl()
+        {
+            return File.Exists(put);
+        }
+
+        public void Sohranit(SpisokKlientov<Klient> baza)
+        {
+            List<string> stroki = new List<string>();
+            foreach (Klient k in baza.Vse())
+            {
+                string stroka = k.Login + ";" + k.Parol + ";" + k.Balans;
+                stroki.Add(stroka);
+            }
+            File.WriteAllLines(put, stroki);
+        }
+
+        public void Zagruzit(SpisokKlientov<Klient> baza)
+        {
+            if (!File.Exists(put))
+                return;
+            string[] stroki = File.ReadAllLines(put);
+            foreach (string s in stroki)
+            {
+                if (s == "")
+                    continue;
+                string[] chasti = s.Split(';');
+                if (chasti.Length < 3)
+                    continue;
+                decimal balans = 0;
+                decimal.TryParse(chasti[2], out balans);
+                Klient k = new Klient();
+                k.Login = chasti[0];
+                k.Parol = chasti[1];
+                k.Balans = balans;
+                baza.Dobavit(k);
+            }
+        }
+    }
+
     class Program
     {
         static SpisokKlientov<Klient> baza = new SpisokKlientov<Klient>();
+        static BankovskiyFayl fayl = new BankovskiyFayl("bank.txt");
         static Klient tekushiy = null;
 
         static void Main(string[] args)
         {
-            Klient admin = new Klient { Login = "admin", Parol = "admin", Balans = 10000 };
-            Klient madina = new Klient { Login = "madina", Parol = "madina", Balans = 5000 };
-            baza.Dobavit(admin);
-            baza.Dobavit(madina);
-
-            foreach (Klient k in baza.Vse())
-                k.Operaciya += ObrabotatOperaciyu;
+            ZagruzitBazu();
 
             while (true)
             {
@@ -105,6 +154,7 @@ namespace ConsoleBank
                 string vybor = Console.ReadLine();
                 if (vybor == "0")
                 {
+                    SohranitBazu();
                     Console.WriteLine("До свидания");
                     break;
                 }
@@ -116,6 +166,28 @@ namespace ConsoleBank
                 else if (vybor == "6") Perevod();
                 else Console.WriteLine("Нет такого пункта");
             }
+        }
+
+        static void ZagruzitBazu()
+        {
+            baza.Ochistit();
+            if (fayl.EstFayl())
+            {
+                fayl.Zagruzit(baza);
+            }
+            else
+            {
+                baza.Dobavit(new Klient { Login = "admin", Parol = "admin", Balans = 10000 });
+                baza.Dobavit(new Klient { Login = "madina", Parol = "madina", Balans = 5000 });
+                fayl.Sohranit(baza);
+            }
+            foreach (Klient k in baza.Vse())
+                k.Operaciya += ObrabotatOperaciyu;
+        }
+
+        static void SohranitBazu()
+        {
+            fayl.Sohranit(baza);
         }
 
         static void ObrabotatOperaciyu(object otpravitel, OperaciyaInfo e)
@@ -153,6 +225,7 @@ namespace ConsoleBank
             Klient noviy = new Klient { Login = login, Parol = parol, Balans = 0 };
             noviy.Operaciya += ObrabotatOperaciyu;
             baza.Dobavit(noviy);
+            SohranitBazu();
             Console.WriteLine("Счет создан");
         }
 
@@ -212,6 +285,7 @@ namespace ConsoleBank
             decimal sum = ChitatSummu();
             if (sum <= 0) return;
             tekushiy.Popolnit(sum);
+            SohranitBazu();
         }
 
         static void Snyat()
@@ -221,6 +295,8 @@ namespace ConsoleBank
             if (sum <= 0) return;
             if (!tekushiy.Snyat(sum))
                 Console.WriteLine("Недостаточно средств");
+            else
+                SohranitBazu();
         }
 
         static void Perevod()
@@ -243,6 +319,8 @@ namespace ConsoleBank
             if (sum <= 0) return;
             if (!tekushiy.Perevesti(komu, sum))
                 Console.WriteLine("Недостаточно средств");
+            else
+                SohranitBazu();
         }
     }
 }
