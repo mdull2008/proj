@@ -215,13 +215,43 @@ namespace ConsoleBank
         }
     }
 
+    class BankDialogi
+    {
+        public static void Info(string text)
+        {
+            MessageBox.Show(text, "Консольный банк", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        public static void Oshibka(string text)
+        {
+            MessageBox.Show(text, "Консольный банк", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        public static void Preduprezhdenie(string text)
+        {
+            MessageBox.Show(text, "Консольный банк", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        }
+
+        public static bool DaNet(string text)
+        {
+            DialogResult otvet = MessageBox.Show(
+                text,
+                "Консольный банк",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+            return otvet == DialogResult.Yes;
+        }
+    }
+
     class BankFaylDialog
     {
         public bool ZagruzitCherezDialog(SpisokKlientov<Klient> baza)
         {
             OpenFileDialog otkrit = new OpenFileDialog();
-            otkrit.Filter = "Файл банка (*.txt)|*.txt";
+            otkrit.Filter = "Файл банка (*.txt)|*.txt|Все файлы (*.*)|*.*";
             otkrit.Title = "Открыть базу клиентов";
+            otkrit.InitialDirectory = Environment.CurrentDirectory;
             if (otkrit.ShowDialog() != DialogResult.OK)
                 return false;
             baza.Ochistit();
@@ -241,15 +271,17 @@ namespace ConsoleBank
                 k.Balans = balans;
                 baza.Dobavit(k);
             }
+            BankDialogi.Info("Файл загружен:\n" + otkrit.FileName);
             return true;
         }
 
         public bool SohranitCherezDialog(SpisokKlientov<Klient> baza)
         {
             SaveFileDialog sohranit = new SaveFileDialog();
-            sohranit.Filter = "Файл банка (*.txt)|*.txt";
+            sohranit.Filter = "Файл банка (*.txt)|*.txt|Все файлы (*.*)|*.*";
             sohranit.Title = "Сохранить базу клиентов";
             sohranit.FileName = "bank.txt";
+            sohranit.InitialDirectory = Environment.CurrentDirectory;
             if (sohranit.ShowDialog() != DialogResult.OK)
                 return false;
             List<string> stroki = new List<string>();
@@ -258,6 +290,7 @@ namespace ConsoleBank
                 stroki.Add(k.Login + ";" + k.Parol + ";" + k.Balans);
             }
             File.WriteAllLines(sohranit.FileName, stroki);
+            BankDialogi.Info("Файл сохранен:\n" + sohranit.FileName);
             return true;
         }
     }

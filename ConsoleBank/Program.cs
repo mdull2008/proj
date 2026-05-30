@@ -11,8 +11,10 @@ namespace ConsoleBank
         static void Main(string[] args)
         {
             Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
             servis = new BankovskiyServis(ObrabotatOperaciyu);
             servis.ZagruzitBazu();
+            BankDialogi.Info("Добро пожаловать в консольный банк");
 
             while (true)
             {
@@ -20,9 +22,9 @@ namespace ConsoleBank
                 string vybor = Console.ReadLine();
                 if (vybor == "0")
                 {
-                    servis.SohranitBazu();
-                    Console.WriteLine("До свидания");
-                    break;
+                    if (Vyhod())
+                        break;
+                    continue;
                 }
                 if (vybor == "1") Registraciya();
                 else if (vybor == "2") Vhod();
@@ -32,8 +34,11 @@ namespace ConsoleBank
                 else if (vybor == "6") Perevod();
                 else if (vybor == "7") DialogZagruzka();
                 else if (vybor == "8") DialogSohranenie();
-                else if (vybor == "9") servis.SdelatSverku();
-                else Console.WriteLine("Нет такого пункта");
+                else if (vybor == "9") Sverka();
+                else
+                {
+                    BankDialogi.Oshibka("Нет такого пункта меню");
+                }
             }
         }
 
@@ -56,9 +61,37 @@ namespace ConsoleBank
             Console.WriteLine("6. Перевод");
             Console.WriteLine("7. Открыть файл (OpenFileDialog)");
             Console.WriteLine("8. Сохранить файл (SaveFileDialog)");
-            Console.WriteLine("9. Сверка (память и bank.txt)");
+            Console.WriteLine("9. Сверка");
             Console.WriteLine("0. Выход");
             Console.Write("Выберите пункт: ");
+        }
+
+        static void PokazatRezultat(string text)
+        {
+            Console.WriteLine(text);
+            if (text.Contains("не") || text.Contains("Недостаточно") || text.Contains("отмен"))
+                BankDialogi.Oshibka(text);
+            else if (text.Contains("Сначала"))
+                BankDialogi.Preduprezhdenie(text);
+            else
+                BankDialogi.Info(text);
+        }
+
+        static bool Vyhod()
+        {
+            if (BankDialogi.DaNet("Сохранить данные и выйти?"))
+            {
+                servis.SohranitBazu();
+                BankDialogi.Info("До свидания");
+                return true;
+            }
+            if (BankDialogi.DaNet("Выйти без сохранения?"))
+            {
+                BankDialogi.Info("До свидания");
+                return true;
+            }
+            BankDialogi.Preduprezhdenie("Выход отменен");
+            return false;
         }
 
         static void Registraciya()
@@ -67,7 +100,7 @@ namespace ConsoleBank
             string login = Console.ReadLine();
             Console.Write("Пароль: ");
             string parol = Console.ReadLine();
-            Console.WriteLine(servis.Registraciya(login, parol));
+            PokazatRezultat(servis.Registraciya(login, parol));
         }
 
         static void Vhod()
@@ -76,12 +109,13 @@ namespace ConsoleBank
             string login = Console.ReadLine();
             Console.Write("Пароль: ");
             string parol = Console.ReadLine();
-            Console.WriteLine(servis.Vhod(login, parol));
+            PokazatRezultat(servis.Vhod(login, parol));
         }
 
         static void Balans()
         {
-            Console.WriteLine(servis.PoluchitBalans());
+            string text = servis.PoluchitBalans();
+            PokazatRezultat(text);
         }
 
         static decimal ChitatSummu()
@@ -91,7 +125,7 @@ namespace ConsoleBank
             decimal sum;
             if (!decimal.TryParse(s, out sum))
             {
-                Console.WriteLine("Введите число");
+                BankDialogi.Oshibka("Введите число");
                 return -1;
             }
             return sum;
@@ -101,14 +135,16 @@ namespace ConsoleBank
         {
             decimal sum = ChitatSummu();
             if (sum <= 0) return;
-            Console.WriteLine(servis.Popolnit(sum));
+            if (BankDialogi.DaNet("Пополнить счет на " + sum + " руб.?"))
+                PokazatRezultat(servis.Popolnit(sum));
         }
 
         static void Snyat()
         {
             decimal sum = ChitatSummu();
             if (sum <= 0) return;
-            Console.WriteLine(servis.Snyat(sum));
+            if (BankDialogi.DaNet("Снять " + sum + " руб.?"))
+                PokazatRezultat(servis.Snyat(sum));
         }
 
         static void Perevod()
@@ -117,17 +153,30 @@ namespace ConsoleBank
             string login = Console.ReadLine();
             decimal sum = ChitatSummu();
             if (sum <= 0) return;
-            Console.WriteLine(servis.Perevod(login, sum));
+            if (BankDialogi.DaNet("Перевести " + sum + " руб. клиенту " + login + "?"))
+                PokazatRezultat(servis.Perevod(login, sum));
         }
 
         static void DialogZagruzka()
         {
-            Console.WriteLine(servis.ZagruzitIzDialoga());
+            string text = servis.ZagruzitIzDialoga();
+            Console.WriteLine(text);
+            if (text.Contains("отмен"))
+                BankDialogi.Preduprezhdenie(text);
         }
 
         static void DialogSohranenie()
         {
-            Console.WriteLine(servis.SohranitVDialog());
+            string text = servis.SohranitVDialog();
+            Console.WriteLine(text);
+            if (text.Contains("отмен"))
+                BankDialogi.Preduprezhdenie(text);
+        }
+
+        static void Sverka()
+        {
+            servis.SdelatSverku();
+            BankDialogi.Info("Сверка завершена. Смотрите консоль.");
         }
     }
 }

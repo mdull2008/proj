@@ -12,9 +12,10 @@
 Этап 4 - Обертка для файла
   Класс BankovskiyFayl, файл bank.txt
 
-Этап 5 - Диалоги файлов
-  Класс BankFaylDialog, OpenFileDialog, SaveFileDialog
-  Пункты меню 7 и 8
+Этап 5 - Диалоги
+  BankFaylDialog - OpenFileDialog, SaveFileDialog (п. 7, 8)
+  BankDialogi - MessageBox (инфо, ошибка, да/нет)
+  Подтверждение операций и выхода
 
 Этап 6 - Сверка
   Класс EtapSverki, пункт меню 9
