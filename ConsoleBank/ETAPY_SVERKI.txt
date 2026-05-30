@@ -20,5 +20,14 @@
   Класс EtapSverki, пункт меню 9
   Сравнение базы в памяти и в файле bank.txt
 
+Этап 7 - Свой сервис
+  Класс BankovskiyServis
+  Вся логика банка в сервисе, Program только меню
+
+Файлы:
+  Program.cs - меню
+  BankovskiyServis.cs - сервис
+  BankModel.cs - классы данных
+
 Запуск: dotnet run
 Тест: admin/admin, madina/madina
