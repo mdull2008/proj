@@ -49,17 +49,54 @@ namespace ConsoleBank
         }
     }
 
+    class SpisokKlientov<T> where T : Klient
+    {
+        List<T> spisok = new List<T>();
+
+        public void Dobavit(T klient)
+        {
+            spisok.Add(klient);
+        }
+
+        public bool Est(string login)
+        {
+            foreach (T k in spisok)
+            {
+                if (k.Login == login)
+                    return true;
+            }
+            return false;
+        }
+
+        public T Nayti(string login)
+        {
+            foreach (T k in spisok)
+            {
+                if (k.Login == login)
+                    return k;
+            }
+            return null;
+        }
+
+        public List<T> Vse()
+        {
+            return spisok;
+        }
+    }
+
     class Program
     {
-        static Dictionary<string, Klient> baza = new Dictionary<string, Klient>();
+        static SpisokKlientov<Klient> baza = new SpisokKlientov<Klient>();
         static Klient tekushiy = null;
 
         static void Main(string[] args)
         {
-            baza["admin"] = new Klient { Login = "admin", Parol = "admin", Balans = 10000 };
-            baza["madina"] = new Klient { Login = "madina", Parol = "madina", Balans = 5000 };
+            Klient admin = new Klient { Login = "admin", Parol = "admin", Balans = 10000 };
+            Klient madina = new Klient { Login = "madina", Parol = "madina", Balans = 5000 };
+            baza.Dobavit(admin);
+            baza.Dobavit(madina);
 
-            foreach (Klient k in baza.Values)
+            foreach (Klient k in baza.Vse())
                 k.Operaciya += ObrabotatOperaciyu;
 
             while (true)
@@ -106,7 +143,7 @@ namespace ConsoleBank
         {
             Console.Write("Логин: ");
             string login = Console.ReadLine();
-            if (login == "" || baza.ContainsKey(login))
+            if (login == "" || baza.Est(login))
             {
                 Console.WriteLine("Логин занят или пустой");
                 return;
@@ -115,7 +152,7 @@ namespace ConsoleBank
             string parol = Console.ReadLine();
             Klient noviy = new Klient { Login = login, Parol = parol, Balans = 0 };
             noviy.Operaciya += ObrabotatOperaciyu;
-            baza[login] = noviy;
+            baza.Dobavit(noviy);
             Console.WriteLine("Счет создан");
         }
 
@@ -125,17 +162,18 @@ namespace ConsoleBank
             string login = Console.ReadLine();
             Console.Write("Пароль: ");
             string parol = Console.ReadLine();
-            if (!baza.ContainsKey(login))
+            Klient k = baza.Nayti(login);
+            if (k == null)
             {
                 Console.WriteLine("Пользователь не найден");
                 return;
             }
-            if (baza[login].Parol != parol)
+            if (k.Parol != parol)
             {
                 Console.WriteLine("Неверный пароль");
                 return;
             }
-            tekushiy = baza[login];
+            tekushiy = k;
             Console.WriteLine("Вы вошли в систему");
         }
 
@@ -189,20 +227,21 @@ namespace ConsoleBank
         {
             if (!ProveritVhod()) return;
             Console.Write("Логин получателя: ");
-            string komu = Console.ReadLine();
-            if (!baza.ContainsKey(komu))
+            string login = Console.ReadLine();
+            Klient komu = baza.Nayti(login);
+            if (komu == null)
             {
                 Console.WriteLine("Получатель не найден");
                 return;
             }
-            if (komu == tekushiy.Login)
+            if (komu.Login == tekushiy.Login)
             {
                 Console.WriteLine("Нельзя перевести себе");
                 return;
             }
             decimal sum = ChitatSummu();
             if (sum <= 0) return;
-            if (!tekushiy.Perevesti(baza[komu], sum))
+            if (!tekushiy.Perevesti(komu, sum))
                 Console.WriteLine("Недостаточно средств");
         }
     }
