@@ -1,0 +1,18 @@
+{
+  "1": {
+    "card_number": "3333333333333333",
+    "card_pin": "3333",
+    "card_owner": "Сидоров Петр Алексеевич",
+    "phone_number": "89003333333",
+    "card_blocked": "0",
+    "card_balance": 40000
+  },
+  "2": {
+    "card_number": "4444444444444444",
+    "card_pin": "4444",
+    "card_owner": "Козлова Анна Дмитриевна",
+    "phone_number": "89004444444",
+    "card_blocked": "0",
+    "card_balance": 8000
+  }
+}
