@@ -39,3 +39,27 @@
 ```bash
 python3 generate.py
 ```
+
+## Короткий бит Ayesha (4 такта)
+
+- **`00_beat_ayesha_4bars.mid`** — только ударные (loop 4 bars)
+- **`00_bass_ayesha_4bars.mid`** — 808 F# под бит
+
+**Импорт:** MIDI-трек → **Drum Rack** (808) → перетащи beat. Второй трек → Operator → bass MIDI.
+
+**Loop:** включи Loop на 4 такта, темп **138**.
+
+### Схема бита (один такт = 4 доли)
+
+```
+Kick:  x . x . | x . . x |  (синкопа, не диско)
+Snare: . . x . |  (на 3-й доле)
+Clap:  вместе со snare
+Hats:  x x x x | x x x x |  (шестнадцатые)
+Rim:   . x . x |  (такты 2 и 4)
+Такт 4: хэт-ролл в конце + open hat
+```
+
+### Обработка (стиль Ayesha)
+
+Drum bus: **OTT** → **Saturator** → **Glue** → sidechain на луп.
