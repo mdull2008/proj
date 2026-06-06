@@ -272,6 +272,27 @@ def confirm_keyboard() -> InlineKeyboardMarkup:
     )
 
 
+def is_master_chat(chat_id: int) -> bool:
+    return bool(MASTER_CHAT_ID) and str(chat_id) == MASTER_CHAT_ID
+
+
+async def require_master_chat(update: Update) -> bool:
+    if not update.effective_chat or not update.message:
+        return False
+
+    if not MASTER_CHAT_ID:
+        await update.message.reply_text(
+            "Сначала настройте MASTER_CHAT_ID. Напишите /myid и укажите этот ID при запуске бота."
+        )
+        return False
+
+    if not is_master_chat(update.effective_chat.id):
+        await update.message.reply_text("Эта команда доступна только мастеру.")
+        return False
+
+    return True
+
+
 async def send_home(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     context.user_data.pop(FLOW_STATE, None)
     context.user_data.pop(BOOKING, None)
@@ -304,7 +325,8 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
             "Команды:\n"
             "/start — открыть меню\n"
             "/myid — узнать свой Telegram chat ID\n"
-            "/bookings — показать записи мастеру"
+            "/bookings — показать записи мастеру\n"
+            "/excel — получить Excel-файл с записями"
         )
 
 
@@ -314,11 +336,7 @@ async def myid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 async def bookings_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    if not update.effective_chat or not update.message:
-        return
-
-    if MASTER_CHAT_ID and str(update.effective_chat.id) != MASTER_CHAT_ID:
-        await update.message.reply_text("Эта команда доступна только мастеру.")
+    if not await require_master_chat(update):
         return
 
     bookings = load_bookings()
@@ -338,6 +356,22 @@ async def bookings_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
         )
 
     await update.message.reply_text("\n".join(lines))
+
+
+async def excel_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not await require_master_chat(update):
+        return
+
+    if not BOOKINGS_FILE.exists():
+        await update.message.reply_text("Excel-файл пока не создан: записей еще нет.")
+        return
+
+    with BOOKINGS_FILE.open("rb") as document:
+        await update.message.reply_document(
+            document=document,
+            filename=BOOKINGS_FILE.name,
+            caption="Excel-таблица с записями клиентов.",
+        )
 
 
 async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -547,6 +581,7 @@ def main() -> None:
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("myid", myid))
     application.add_handler(CommandHandler("bookings", bookings_command))
+    application.add_handler(CommandHandler("excel", excel_command))
     application.add_handler(CallbackQueryHandler(handle_callback))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
 
