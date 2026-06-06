@@ -6,7 +6,6 @@ Run with:
 
 from __future__ import annotations
 
-import json
 import logging
 import os
 from dataclasses import dataclass
@@ -15,6 +14,7 @@ from html import escape
 from pathlib import Path
 from typing import Any
 
+from openpyxl import Workbook, load_workbook
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.constants import ParseMode
 from telegram.ext import (
@@ -44,7 +44,22 @@ class Service:
 
 MASTER_NAME = os.getenv("MASTER_NAME", "мастер маникюра Анна")
 MASTER_CHAT_ID = os.getenv("MASTER_CHAT_ID")
-BOOKINGS_FILE = Path(os.getenv("BOOKINGS_FILE", "bot_bookings.json"))
+BOOKINGS_FILE = Path(os.getenv("BOOKINGS_FILE", "bookings.xlsx"))
+BOOKINGS_SHEET = "Записи"
+BOOKING_COLUMNS: tuple[tuple[str, str], ...] = (
+    ("id", "ID"),
+    ("created_at", "Создано"),
+    ("date", "Дата"),
+    ("time", "Время"),
+    ("service_title", "Услуга"),
+    ("price", "Цена"),
+    ("name", "Имя клиента"),
+    ("phone", "Телефон"),
+    ("telegram_username", "Telegram username"),
+    ("telegram_user_id", "Telegram ID"),
+    ("status", "Статус"),
+    ("service_code", "Код услуги"),
+)
 
 SERVICES: dict[str, Service] = {
     "classic": Service("classic", "Маникюр без покрытия", "60 мин", 1200),
@@ -124,28 +139,91 @@ def load_bookings() -> list[dict[str, Any]]:
         return []
 
     try:
-        raw_bookings = json.loads(BOOKINGS_FILE.read_text(encoding="utf-8"))
-    except json.JSONDecodeError:
-        LOGGER.warning("Cannot parse %s, starting with empty bookings", BOOKINGS_FILE)
+        workbook = load_workbook(BOOKINGS_FILE, data_only=True)
+    except OSError:
+        LOGGER.warning("Cannot open %s, starting with empty bookings", BOOKINGS_FILE)
         return []
 
-    if not isinstance(raw_bookings, list):
-        return []
+    worksheet = workbook[BOOKINGS_SHEET] if BOOKINGS_SHEET in workbook.sheetnames else workbook.active
+    label_to_key = {label: key for key, label in BOOKING_COLUMNS}
+    headers = [cell.value for cell in worksheet[1]]
+    index_to_key = {
+        index: label_to_key[label]
+        for index, label in enumerate(headers)
+        if label in label_to_key
+    }
 
-    return [booking for booking in raw_bookings if isinstance(booking, dict)]
+    bookings: list[dict[str, Any]] = []
+    for row in worksheet.iter_rows(min_row=2, values_only=True):
+        if not any(row):
+            continue
+
+        booking = {
+            key: value
+            for index, value in enumerate(row)
+            if (key := index_to_key.get(index)) and value is not None
+        }
+        bookings.append(booking)
+
+    return bookings
 
 
-def save_bookings(bookings: list[dict[str, Any]]) -> None:
-    BOOKINGS_FILE.write_text(
-        json.dumps(bookings, ensure_ascii=False, indent=2),
-        encoding="utf-8",
-    )
+def prepare_bookings_sheet() -> tuple[Workbook, Any]:
+    if BOOKINGS_FILE.exists():
+        workbook = load_workbook(BOOKINGS_FILE)
+        worksheet = workbook[BOOKINGS_SHEET] if BOOKINGS_SHEET in workbook.sheetnames else workbook.active
+        worksheet.title = BOOKINGS_SHEET
+    else:
+        workbook = Workbook()
+        worksheet = workbook.active
+        worksheet.title = BOOKINGS_SHEET
+
+    expected_headers = [label for _, label in BOOKING_COLUMNS]
+    current_headers = [cell.value for cell in worksheet[1]]
+    if current_headers[: len(expected_headers)] != expected_headers:
+        for column_index, label in enumerate(expected_headers, start=1):
+            worksheet.cell(row=1, column=column_index, value=label)
+
+    widths = {
+        "A": 24,
+        "B": 20,
+        "C": 14,
+        "D": 12,
+        "E": 28,
+        "F": 12,
+        "G": 22,
+        "H": 18,
+        "I": 22,
+        "J": 16,
+        "K": 12,
+        "L": 16,
+    }
+    for column, width in widths.items():
+        worksheet.column_dimensions[column].width = width
+
+    return workbook, worksheet
+
+
+def save_booking(booking: dict[str, Any]) -> None:
+    service = SERVICES.get(str(booking.get("service_code")))
+    booking_for_table = {
+        **booking,
+        "service_title": service.title if service else booking.get("service_code", ""),
+        "price": service.price if service else "",
+    }
+
+    if BOOKINGS_FILE.parent != Path("."):
+        BOOKINGS_FILE.parent.mkdir(parents=True, exist_ok=True)
+
+    workbook, worksheet = prepare_bookings_sheet()
+    worksheet.append([booking_for_table.get(key, "") for key, _ in BOOKING_COLUMNS])
+    workbook.save(BOOKINGS_FILE)
 
 
 def slot_is_taken(day: str, time: str) -> bool:
     return any(
-        booking.get("date") == day
-        and booking.get("time") == time
+        str(booking.get("date")) == day
+        and str(booking.get("time")) == time
         and booking.get("status") != "cancelled"
         for booking in load_bookings()
     )
@@ -426,9 +504,7 @@ async def confirm_booking(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         "status": "new",
     }
 
-    bookings = load_bookings()
-    bookings.append(saved_booking)
-    save_bookings(bookings)
+    save_booking(saved_booking)
 
     context.user_data.pop(FLOW_STATE, None)
     context.user_data.pop(BOOKING, None)
